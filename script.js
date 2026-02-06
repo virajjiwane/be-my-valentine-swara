@@ -59,14 +59,14 @@ yesBtn.addEventListener('click', async () => {
     try {
         if (typeof emailjs !== 'undefined') {
             // Replace with your EmailJS service ID, template ID, and parameters
-            const serviceID = 'YOUR_SERVICE_ID'; // Replace with your service ID
-            const templateID = 'YOUR_TEMPLATE_ID'; // Replace with your template ID
+            const serviceID = 'service_p6epjnl'; // Replace with your service ID
+            const templateID = 'template_1mkuifk'; // Replace with your template ID
             
             const templateParams = {
                 to_name: 'Viraj', // Your name
                 from_name: 'Swara',
                 message: 'Swara said YES to being your Valentine! 💖',
-                reply_to: 'your-email@example.com' // Your email
+                reply_to: 'vjiwane27@gmail.com' // Your email
             };
 
             await emailjs.send(serviceID, templateID, templateParams);
