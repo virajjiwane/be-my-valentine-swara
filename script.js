@@ -17,40 +17,114 @@ const questionDialog = document.getElementById('questionDialog');
 const thankYouDialog = document.getElementById('thankYouDialog');
 const buttonsContainer = document.querySelector('.buttons-container');
 
+// Function to calculate distance between two points
+function getDistance(x1, y1, x2, y2) {
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+}
+
+// Function to check if two rectangles overlap
+function doRectanglesOverlap(rect1, rect2) {
+    return !(rect1.right < rect2.left || 
+             rect1.left > rect2.right || 
+             rect1.bottom < rect2.top || 
+             rect1.top > rect2.bottom);
+}
+
 // Function to move the "No" button to a random position
-function moveNoButton() {
-    // Make button absolutely positioned on first move
-    if (noBtn.style.position !== 'absolute') {
-        noBtn.style.position = 'absolute';
+function moveNoButton(pointerX = null, pointerY = null) {
+    // Make button fixed positioned on first move (so it can move anywhere on screen)
+    if (noBtn.style.position !== 'fixed') {
+        noBtn.style.position = 'fixed';
+        noBtn.style.zIndex = '100';
     }
     
-    const containerRect = buttonsContainer.getBoundingClientRect();
     const btnRect = noBtn.getBoundingClientRect();
+    const yesRect = yesBtn.getBoundingClientRect();
     
-    // Calculate maximum positions (keeping button inside container)
-    const maxX = containerRect.width - btnRect.width;
-    const maxY = containerRect.height - btnRect.height;
+    // Get viewport dimensions
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
     
-    // Generate random positions
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
+    // Calculate maximum positions (keeping button inside viewport)
+    const maxX = viewportWidth - btnRect.width - 20; // 20px margin from edge
+    const maxY = viewportHeight - btnRect.height - 20;
     
-    // Apply new position
-    noBtn.style.left = `${randomX}px`;
-    noBtn.style.top = `${randomY}px`;
+    const minX = 20; // 20px margin from edge
+    const minY = 20;
+    
+    const minDistanceFromPointer = 150; // Minimum distance from pointer (in pixels)
+    const minDistanceFromYes = 100; // Minimum distance from Yes button
+    
+    let newX, newY;
+    let attempts = 0;
+    const maxAttempts = 50;
+    
+    // Try to find a position that satisfies all constraints
+    do {
+        // Generate random positions
+        newX = minX + Math.random() * (maxX - minX);
+        newY = minY + Math.random() * (maxY - minY);
+        
+        // Create a temporary rect for the new position
+        const newRect = {
+            left: newX,
+            top: newY,
+            right: newX + btnRect.width,
+            bottom: newY + btnRect.height
+        };
+        
+        // Check distance from pointer (if pointer position is provided)
+        const distanceFromPointer = (pointerX !== null && pointerY !== null) 
+            ? getDistance(pointerX, pointerY, newX + btnRect.width / 2, newY + btnRect.height / 2)
+            : minDistanceFromPointer + 1; // Skip this check if no pointer position
+        
+        // Check distance from Yes button
+        const yesCenterX = yesRect.left + yesRect.width / 2;
+        const yesCenterY = yesRect.top + yesRect.height / 2;
+        const newCenterX = newX + btnRect.width / 2;
+        const newCenterY = newY + btnRect.height / 2;
+        const distanceFromYes = getDistance(yesCenterX, yesCenterY, newCenterX, newCenterY);
+        
+        // Check if position is valid
+        const farEnoughFromPointer = distanceFromPointer > minDistanceFromPointer;
+        const farEnoughFromYes = distanceFromYes > minDistanceFromYes;
+        const noOverlap = !doRectanglesOverlap(newRect, yesRect);
+        
+        if (farEnoughFromPointer && farEnoughFromYes && noOverlap) {
+            break; // Found a good position
+        }
+        
+        attempts++;
+    } while (attempts < maxAttempts);
+    
+    // Apply new position with smooth transition
+    noBtn.style.transition = 'all 0.3s ease';
+    noBtn.style.left = `${newX}px`;
+    noBtn.style.top = `${newY}px`;
 }
 
 // Event listeners for "No" button
-noBtn.addEventListener('mouseenter', moveNoButton);
+noBtn.addEventListener('mouseenter', (e) => {
+    moveNoButton(e.clientX, e.clientY);
+});
+
 noBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    moveNoButton();
+    moveNoButton(e.clientX, e.clientY);
 });
 
 // Touch support for mobile
 noBtn.addEventListener('touchstart', (e) => {
     e.preventDefault();
-    moveNoButton();
+    const touch = e.touches[0];
+    moveNoButton(touch.clientX, touch.clientY);
+});
+
+// Also handle touchmove to move button away if user tries to follow it
+noBtn.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    moveNoButton(touch.clientX, touch.clientY);
 });
 
 // "Yes" button click handler
