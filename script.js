@@ -1,7 +1,13 @@
 // Initialize EmailJS with your public key
 // Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
 (function() {
-    emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+    try {
+        if (typeof emailjs !== 'undefined') {
+            emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+        }
+    } catch (error) {
+        console.log('EmailJS not loaded, email functionality will be disabled');
+    }
 })();
 
 // Get elements
@@ -13,6 +19,11 @@ const buttonsContainer = document.querySelector('.buttons-container');
 
 // Function to move the "No" button to a random position
 function moveNoButton() {
+    // Make button absolutely positioned on first move
+    if (noBtn.style.position !== 'absolute') {
+        noBtn.style.position = 'absolute';
+    }
+    
     const containerRect = buttonsContainer.getBoundingClientRect();
     const btnRect = noBtn.getBoundingClientRect();
     
@@ -46,19 +57,23 @@ noBtn.addEventListener('touchstart', (e) => {
 yesBtn.addEventListener('click', async () => {
     // Send email using EmailJS
     try {
-        // Replace with your EmailJS service ID, template ID, and parameters
-        const serviceID = 'YOUR_SERVICE_ID'; // Replace with your service ID
-        const templateID = 'YOUR_TEMPLATE_ID'; // Replace with your template ID
-        
-        const templateParams = {
-            to_name: 'Viraj', // Your name
-            from_name: 'Swara',
-            message: 'Swara said YES to being your Valentine! 💖',
-            reply_to: 'your-email@example.com' // Your email
-        };
+        if (typeof emailjs !== 'undefined') {
+            // Replace with your EmailJS service ID, template ID, and parameters
+            const serviceID = 'YOUR_SERVICE_ID'; // Replace with your service ID
+            const templateID = 'YOUR_TEMPLATE_ID'; // Replace with your template ID
+            
+            const templateParams = {
+                to_name: 'Viraj', // Your name
+                from_name: 'Swara',
+                message: 'Swara said YES to being your Valentine! 💖',
+                reply_to: 'your-email@example.com' // Your email
+            };
 
-        await emailjs.send(serviceID, templateID, templateParams);
-        console.log('Email sent successfully!');
+            await emailjs.send(serviceID, templateID, templateParams);
+            console.log('Email sent successfully!');
+        } else {
+            console.log('EmailJS not available, skipping email');
+        }
     } catch (error) {
         console.error('Failed to send email:', error);
         // Still show the thank you message even if email fails

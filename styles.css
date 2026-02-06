@@ -246,7 +246,6 @@ body::before {
 .btn-no {
     background: linear-gradient(135deg, #e879f9, #c026d3);
     color: white;
-    position: absolute;
     transition: all 0.1s ease;
 }
 
