@@ -196,7 +196,30 @@ body::before {
     z-index: 10;
     width: 90%;
     max-width: 600px;
+    max-height: 90vh;
     padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar styling */
+.container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: rgba(255, 192, 203, 0.2);
+    border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #ff69b4, #d946ef);
+    border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #ff1493, #c026d3);
 }
 
 /* Cute stickers */
@@ -427,7 +450,7 @@ body::before {
     }
 
     .container {
-        width: 95%;
+        width: 95%;        max-height: 85vh;        max-height: 85vh;
         padding: 10px;
     }
 
