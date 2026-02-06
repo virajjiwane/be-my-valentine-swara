@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 Be My Valentine, Swara! 💖</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="hearts-container">
+        <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+        <!-- Cute stickers -->
+        <div class="sticker sticker-1">💕</div>
+        <div class="sticker sticker-2">💘</div>
+        <div class="sticker sticker-3">💝</div>
+        <div class="sticker sticker-4">💖</div>
+
+        <!-- Main dialog -->
+        <div class="dialog-box" id="questionDialog">
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/26u4cqiYI30juCOGY/giphy.gif" alt="Valentine's GIF" class="valentine-gif">
+            </div>
+            <h1 class="question">Will you be my Valentine, Swara? 💖</h1>
+            <div class="buttons-container">
+                <button class="btn btn-yes" id="yesBtn">Yes! 💕</button>
+                <button class="btn btn-no" id="noBtn">No 😢</button>
+            </div>
+        </div>
+
+        <!-- Thank you dialog (hidden initially) -->
+        <div class="dialog-box hidden" id="thankYouDialog">
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/UVk5yzljef0kGiayL1/giphy.gif" alt="Celebration GIF" class="valentine-gif">
+            </div>
+            <h1 class="thank-you-text">Yay! Thank you, Swara! 💖✨</h1>
+            <p class="love-message">You've made me the happiest person! 🎉💕</p>
+            <div class="celebration-emojis">
+                🎊 💖 🎉 💝 ✨ 💕 🎊
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
