@@ -3,7 +3,7 @@
 (function() {
     try {
         if (typeof emailjs !== 'undefined') {
-            emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+            emailjs.init('9z5tnKtdB_iK5PmTE'); // Replace with your EmailJS public key
         }
     } catch (error) {
         console.log('EmailJS not loaded, email functionality will be disabled');
