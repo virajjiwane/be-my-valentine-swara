@@ -25,6 +25,8 @@ cd be-my-valentine-swara
 
 To enable email notifications:
 
+⚠️ **Important Security Note**: The placeholder values (YOUR_PUBLIC_KEY, YOUR_SERVICE_ID, etc.) in `script.js` are intentional and MUST be replaced with your actual EmailJS credentials. Never commit real credentials to a public repository.
+
 1. Go to [EmailJS](https://www.emailjs.com/) and create a free account
 2. Create an email service (Gmail, Outlook, etc.)
 3. Create an email template with these variables:
